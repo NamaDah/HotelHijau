@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('room_number')->unique();
-            $table->string('room_type'); // Jenis kamar (Deluxe, Suite, Standard, dll.)
-            $table->decimal('price_per_night', 10, 2); // Harga per malam
-            $table->text('facilities'); // Daftar fasilitas (dalam bentuk JSON atau string)
-            $table->enum('status', ['available', 'occupied'])->default('available');
+            $table->foreignId('RoomTypeID')->constrained('room_types')->onDelete('cascade');
+            $table->integer('RoomType');
+            $table->string('RoomFloor');
+            $table->string('Description');
             $table->timestamps();
         });
     }

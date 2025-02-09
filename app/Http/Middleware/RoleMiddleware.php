@@ -14,13 +14,22 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $role)
     {
+        if (Auth::check() && Auth::user()->role === $role) {
+            return $next($request);
+        }
+
         if(Auth::user()->role != 'admin'){
             return redirect('dashboard');
         }
 
 
         return $next($request);
+
     }
+
+    // public function __construct() {
+    //     $this->middleware('auth');
+    // }
 }

@@ -22,3 +22,7 @@ require __DIR__.'/auth.php';
 
 
 Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'admin']);
+
+// Admin Route (Ensure this exists)
+Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
+
