@@ -12,7 +12,7 @@ class IJobController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.ijob.index', compact('ijob'));
     }
 
     /**
@@ -20,7 +20,9 @@ class IJobController extends Controller
      */
     public function create()
     {
-        //
+        $iJob = iJob::get();
+
+        return view('admin.ijob.create', compact('ijob'));
     }
 
     /**
@@ -28,7 +30,15 @@ class IJobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        iJob::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('ijob.index')->with('success', 'IJob successfully created');
     }
 
     /**
@@ -44,22 +54,33 @@ class IJobController extends Controller
      */
     public function edit(iJob $iJob)
     {
-        //
+        $iJob = iJob::get();
+
+        return view('admin.ijob.edit', compact('ijob'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, iJob $iJob)
+    public function update(Request $request, iJob $iJob, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $iJob = iJob::findOrFail($id);
+        $iJob->update($request->all());
+
+        return redirect()->route('ijob.index')->with('success', 'IJob successfully created');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(iJob $iJob)
+    public function destroy(iJob $iJob, $id)
     {
-        //
+        $iJob = iJob::findOrFail($id);
+        $iJob->delete();
+        return redirect()->route('ijob.index')->with('success', 'ijob successfully deleted');
     }
 }

@@ -10,9 +10,13 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'reservation_id',   // ID reservasi terkait
-        'amount',           // Jumlah pembayaran
-        'payment_status',   // Status pembayaran (pending, completed, failed)
-        'payment_method',   // Metode pembayaran
+        'reservation_id',
+        'amount',
+        'payment_status',
+        'payment_method',
     ];
+
+    public function reservation() {
+        return $this->belongsTo(Reservation::class, 'reservation_id');
+    }
 }
